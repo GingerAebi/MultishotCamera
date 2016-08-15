@@ -65,4 +65,14 @@ public class Story extends RealmObject implements StoryBoardItem {
     public int getType() {
         return Story.STORY_TYPE;
     }
+
+    @Override
+    public String toString() {
+        return "Story{" +
+                "picPaths=" + picPaths +
+                ", title='" + title + '\'' +
+                ", memo='" + memo + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

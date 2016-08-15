@@ -13,7 +13,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
-        Realm.deleteRealm(realmConfig); // Delete Realm between app restarts.
         Realm.setDefaultConfiguration(realmConfig);
     }
 }

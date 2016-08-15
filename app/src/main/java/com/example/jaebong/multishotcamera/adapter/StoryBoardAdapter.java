@@ -82,9 +82,9 @@ public class StoryBoardAdapter extends BaseAdapter {
 
         titleText.setText(story.getTitle());
         timeText.setText(story.getTime());
-
-        Picasso.with(context).load(story.getPicPaths().get(0).filePath).into(thumbnailImage);
-
+        if(story.getPicPaths().size() > 0) {
+            Picasso.with(context).load(story.getPicPaths().get(0).filePath).into(thumbnailImage);
+        }
         return view;
     }
 

@@ -3,9 +3,11 @@ package com.example.jaebong.multishotcamera.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jaebong.multishotcamera.R;
 import com.example.jaebong.multishotcamera.model.Story;
@@ -45,6 +47,9 @@ public class StoryBoardActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
         RealmResults<Story> allStories = realm.where(Story.class).findAllSorted("date");
+        for(Story story : allStories) {
+            Log.e("태스트입니다,", story.toString());
+        }
 
         allStoryCountText.setText("(" + allStories.size() + ")");
 
@@ -61,7 +66,6 @@ public class StoryBoardActivity extends AppCompatActivity {
             fastestDate = getDayOnlyDate(firstStory.getDate());
             nextMonthDate = getNextMonthDate(fastestDate);
 
-
             storyBoardItems.add(new StoryHeader(firstStory.getShortTime(), 1));
             storyBoardItems.add(firstStory);
 
@@ -72,7 +76,7 @@ public class StoryBoardActivity extends AppCompatActivity {
             Date storyDate = story.getDate();
             Date dayOnlyDate = getDayOnlyDate(storyDate);
 
-            if (dayOnlyDate.equals(fastestDate) && dayOnlyDate.after(fastestDate) && story.getDate().before(nextMonthDate)) {
+            if (dayOnlyDate.equals(fastestDate) || dayOnlyDate.after(fastestDate) && story.getDate().before(nextMonthDate)) {
                 storyBoardItems.add(story);
                 updateItemCount(storyBoardItems, headerPosition);
                 itemIdx++;

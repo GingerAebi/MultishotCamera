@@ -53,8 +53,8 @@ public class StoryEditActivity extends AppCompatActivity {
 
     private RealmList<FilePath> filePaths = new RealmList<>();
 
-    @OnClick(R.id.addStoryText)
-    public void addStory() {
+    @OnClick(R.id.completeText)
+    public void completeStory() {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
