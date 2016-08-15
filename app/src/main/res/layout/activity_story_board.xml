@@ -3,37 +3,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StoryBoardActivity">
+    tools:context=".activity.StoryBoardActivity">
 
-    <EditText
+    <RelativeLayout
+        android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/searchEdit"
-        android:hint="검색어를 입력해 주세요."
-        android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/storyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="스토리"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/allStoryCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/storyText"
+            android:layout_toRightOf="@id/storyText"
+            android:text="(?)"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addStoryText"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:text="+추가"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+
+            />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/searchEdit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@id/actionBar"
         android:layout_marginRight="50dp"
-        android:background="@null" />
+        android:background="@null"
+        android:hint="검색어를 입력해 주세요."
+        android:paddingLeft="10dp" />
 
     <ImageView
+        android:id="@+id/searchButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/searchButton"
         android:layout_alignBottom="@+id/searchEdit"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:padding="5dp"
         android:src="@android:drawable/ic_search_category_default" />
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
+        android:id="@+id/storyList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView"
-        android:layout_below="@id/searchEdit"
-        >
+        android:layout_below="@id/searchEdit">
 
-    </android.support.v7.widget.RecyclerView>
+    </ListView>
 
 </RelativeLayout>
