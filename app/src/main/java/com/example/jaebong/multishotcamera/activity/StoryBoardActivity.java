@@ -2,17 +2,14 @@ package com.example.jaebong.multishotcamera.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jaebong.multishotcamera.R;
-import com.example.jaebong.multishotcamera.model.Story;
 import com.example.jaebong.multishotcamera.adapter.StoryBoardAdapter;
+import com.example.jaebong.multishotcamera.model.Story;
 import com.example.jaebong.multishotcamera.model.StoryBoardItem;
 import com.example.jaebong.multishotcamera.model.StoryHeader;
 
@@ -54,9 +51,6 @@ public class StoryBoardActivity extends AppCompatActivity {
 
         RealmResults<Story> allStories = realm.where(Story.class).findAllSorted("date");
 
-        for(Story story : allStories) {
-            Log.e("데이터" ,story.toString());
-        }
 
         allStoryCountText.setText("(" + allStories.size() + ")");
 
@@ -72,12 +66,7 @@ public class StoryBoardActivity extends AppCompatActivity {
         });
 
         storyBoardAdapter = new StoryBoardAdapter(this, storyBoardItems);
-        int i = 0 ;
-        for(StoryBoardItem storyBoardItem : storyBoardItems) {
-            Log.e("몇개있냐", "" +i++);
-        }
         storyListView.setAdapter(storyBoardAdapter);
-
     }
 
     private ArrayList<StoryBoardItem> makeStoryBoardItems(RealmResults<Story> allStories) {
@@ -90,7 +79,7 @@ public class StoryBoardActivity extends AppCompatActivity {
 
         if (it.hasNext()) {
             Story firstStory = it.next();
-            Log.e("처음 아이템", firstStory.toString());
+
 
             fastestDate = getDayOnlyDate(firstStory.getDate());
             nextMonthDate = getNextMonthDate(fastestDate);
@@ -103,7 +92,7 @@ public class StoryBoardActivity extends AppCompatActivity {
         int itemIdx = 1;
         while (it.hasNext()) {
             Story story = it.next();
-            Log.e("Item hasNext", story.toString());
+
             Date storyDate = story.getDate();
             Date dayOnlyDate = getDayOnlyDate(storyDate);
 
