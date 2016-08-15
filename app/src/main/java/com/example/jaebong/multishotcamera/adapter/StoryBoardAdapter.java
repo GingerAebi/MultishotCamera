@@ -29,6 +29,10 @@ public class StoryBoardAdapter extends BaseAdapter {
         this.storyBoardItems = storyBoardItems;
     }
 
+    public void setStoryBoardItems(ArrayList<StoryBoardItem> storyBoardItems) {
+        this.storyBoardItems = storyBoardItems;
+    }
+
     @Override
     public int getCount() {
         return storyBoardItems.size();

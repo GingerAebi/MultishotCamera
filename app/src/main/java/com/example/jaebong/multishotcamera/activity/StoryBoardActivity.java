@@ -2,6 +2,7 @@ package com.example.jaebong.multishotcamera.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class StoryBoardActivity extends AppCompatActivity {
@@ -39,6 +41,9 @@ public class StoryBoardActivity extends AppCompatActivity {
     @BindView(R.id.allStoryCountText)
     TextView allStoryCountText;
 
+    private ArrayList<StoryBoardItem> storyBoardItems;
+    private StoryBoardAdapter storyBoardAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +51,38 @@ public class StoryBoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         realm = Realm.getDefaultInstance();
+
         RealmResults<Story> allStories = realm.where(Story.class).findAllSorted("date");
+
         for(Story story : allStories) {
-            Log.e("태스트입니다,", story.toString());
+            Log.e("데이터" ,story.toString());
         }
 
         allStoryCountText.setText("(" + allStories.size() + ")");
 
+        storyBoardItems = makeStoryBoardItems(allStories);
+
+        allStories.addChangeListener(new RealmChangeListener<RealmResults<Story>>() {
+            @Override
+            public void onChange(RealmResults<Story> allStories) {
+                storyBoardItems = makeStoryBoardItems(allStories);
+                storyBoardAdapter.setStoryBoardItems(storyBoardItems);
+                storyBoardAdapter.notifyDataSetChanged();
+            }
+        });
+
+        storyBoardAdapter = new StoryBoardAdapter(this, storyBoardItems);
+        int i = 0 ;
+        for(StoryBoardItem storyBoardItem : storyBoardItems) {
+            Log.e("몇개있냐", "" +i++);
+        }
+        storyListView.setAdapter(storyBoardAdapter);
+
+    }
+
+    private ArrayList<StoryBoardItem> makeStoryBoardItems(RealmResults<Story> allStories) {
         ArrayList<StoryBoardItem> storyBoardItems = new ArrayList<>();
-        //add Headers
-        //1.가장 처음의 데이터를 가져와 헤더에 년, 월 포함 추가 -> getShortTime()으로 가능할듯.
+
         Iterator<Story> it = allStories.iterator();
         Date fastestDate = null;
         Date nextMonthDate = null;
@@ -63,6 +90,8 @@ public class StoryBoardActivity extends AppCompatActivity {
 
         if (it.hasNext()) {
             Story firstStory = it.next();
+            Log.e("처음 아이템", firstStory.toString());
+
             fastestDate = getDayOnlyDate(firstStory.getDate());
             nextMonthDate = getNextMonthDate(fastestDate);
 
@@ -70,9 +99,11 @@ public class StoryBoardActivity extends AppCompatActivity {
             storyBoardItems.add(firstStory);
 
         }
+
         int itemIdx = 1;
-        if (it.hasNext()) {
+        while (it.hasNext()) {
             Story story = it.next();
+            Log.e("Item hasNext", story.toString());
             Date storyDate = story.getDate();
             Date dayOnlyDate = getDayOnlyDate(storyDate);
 
@@ -89,11 +120,7 @@ public class StoryBoardActivity extends AppCompatActivity {
                 itemIdx += 2;
             }
         }
-
-
-        StoryBoardAdapter storyBoardAdapter = new StoryBoardAdapter(this, storyBoardItems);
-        storyListView.setAdapter(storyBoardAdapter);
-
+        return storyBoardItems;
     }
 
     private Date getDayOnlyDate(Date storyDate) {
@@ -136,9 +163,4 @@ public class StoryBoardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 }
